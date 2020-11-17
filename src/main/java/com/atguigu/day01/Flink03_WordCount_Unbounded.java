@@ -26,18 +26,19 @@ public class Flink03_WordCount_Unbounded {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         //代码全局设置并行度
-        env.setParallelism(2);
+        //        env.setParallelism(2);
+        env.disableOperatorChaining();
 
         //提取参数
-        ParameterTool parameterTool = ParameterTool.fromArgs(args);
-        String host = parameterTool.get("host");
-        int port = parameterTool.getInt("port");
+//        ParameterTool parameterTool = ParameterTool.fromArgs(args);
+//        String host = parameterTool.get("host");
+//        int port = parameterTool.getInt("port");
 
         //2.从端口获取数据创建流
-        DataStreamSource<String> lineDS = env.socketTextStream(host, port);
+        DataStreamSource<String> lineDS = env.socketTextStream("hadoop102", 7777);
 
         //3.压平操作,并给算子局部设置并行度
-        SingleOutputStreamOperator<Tuple2<String, Integer>> wordToOneDS = lineDS.flatMap(new Flink01_WordCount_Batch.MyFlatMapFunc()).setParallelism(3);
+        SingleOutputStreamOperator<Tuple2<String, Integer>> wordToOneDS = lineDS.flatMap(new Flink01_WordCount_Batch.MyFlatMapFunc());
 
         //4.分组
         KeyedStream<Tuple2<String, Integer>, Tuple> keyedDS = wordToOneDS.keyBy(0);
