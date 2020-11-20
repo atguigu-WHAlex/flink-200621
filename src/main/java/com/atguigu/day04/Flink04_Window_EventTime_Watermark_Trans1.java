@@ -15,7 +15,7 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.OutputTag;
 
-public class Flink04_Window_EventTime_Watermark_Trans {
+public class Flink04_Window_EventTime_Watermark_Trans1 {
 
     public static void main(String[] args) throws Exception {
 
