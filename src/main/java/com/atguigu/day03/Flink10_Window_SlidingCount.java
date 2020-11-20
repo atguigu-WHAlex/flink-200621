@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.datastream.WindowedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;
 
-public class Flink09_TumplingCount {
+public class Flink10_Window_SlidingCount {
     public static void main(String[] args) throws Exception {
         //1.创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -26,7 +26,7 @@ public class Flink09_TumplingCount {
         KeyedStream<Tuple2<String, Integer>, Tuple> keyedStream = wordToOneDS.keyBy(0);
 
         //5.计数滚动窗口
-        WindowedStream<Tuple2<String, Integer>, Tuple, GlobalWindow> window = keyedStream.countWindow(5);
+        WindowedStream<Tuple2<String, Integer>, Tuple, GlobalWindow> window = keyedStream.countWindow(5, 2);
 
         //6.计算
         SingleOutputStreamOperator<Tuple2<String, Integer>> sum = window.sum(1);
