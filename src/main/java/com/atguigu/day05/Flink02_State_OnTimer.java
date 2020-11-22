@@ -65,15 +65,13 @@ public class Flink02_State_OnTimer {
             if (lastTs == null) {
                 ctx.timerService().registerProcessingTimeTimer(ts);
                 tsState.update(ts);
-            } else {
+            } else if (value.getTemp() < lastTemp) {
                 //非第一条数据,则需要判断温度是否下降
-                if (lastTemp != null && value.getTemp() < lastTemp) {
-                    //删除定时器
-                    ctx.timerService().deleteProcessingTimeTimer(tsState.value());
-                    //重新注册新的定时器
-                    ctx.timerService().registerProcessingTimeTimer(ts);
-                    tsState.update(ts);
-                }
+                //删除定时器
+                ctx.timerService().deleteProcessingTimeTimer(tsState.value());
+                //重新注册新的定时器
+                ctx.timerService().registerProcessingTimeTimer(ts);
+                tsState.update(ts);
             }
 
             //更新状态
