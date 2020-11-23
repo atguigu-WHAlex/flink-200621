@@ -8,13 +8,10 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.datastream.WindowedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;
 
-public class Flink05_Window_TumplingTime {
-
+public class Flink09_Window_TumblingCount {
     public static void main(String[] args) throws Exception {
-
         //1.创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
@@ -28,18 +25,16 @@ public class Flink05_Window_TumplingTime {
         //4.重分区
         KeyedStream<Tuple2<String, Integer>, Tuple> keyedStream = wordToOneDS.keyBy(0);
 
-        //5.简化版本滚动时间开窗
-        WindowedStream<Tuple2<String, Integer>, Tuple, TimeWindow> windowDStream = keyedStream.timeWindow(Time.seconds(5));
+        //5.计数滚动窗口
+        WindowedStream<Tuple2<String, Integer>, Tuple, GlobalWindow> window = keyedStream.countWindow(5);
 
         //6.计算
-        SingleOutputStreamOperator<Tuple2<String, Integer>> sum = windowDStream.sum(1);
+        SingleOutputStreamOperator<Tuple2<String, Integer>> sum = window.sum(1);
 
-        //7.打印
+        //7.打印数据
         sum.print();
 
         //8.执行任务
         env.execute();
-
     }
-
 }
