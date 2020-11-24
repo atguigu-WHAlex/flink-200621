@@ -1,13 +1,11 @@
 package com.atguigu.day06;
 
-import com.atguigu.bean.SensorReading;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 
-public class FlinkSQL13_PorcessTime_DDL {
+public class FlinkSQL13_ProcessTime_DDL {
 
     public static void main(String[] args) {
 

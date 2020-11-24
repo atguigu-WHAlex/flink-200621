@@ -9,7 +9,7 @@ import org.apache.flink.table.descriptors.FileSystem;
 import org.apache.flink.table.descriptors.OldCsv;
 import org.apache.flink.table.descriptors.Schema;
 
-public class FlinkSQL12_PorcessTime_Connect {
+public class FlinkSQL12_ProcessTime_Connect {
 
     public static void main(String[] args) {
 
